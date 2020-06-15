@@ -1,0 +1,28 @@
+body {
+    background-color: #efefef;
+}
+
+.des-fluid {
+    background-color: white;
+    margin: 30px;
+}
+
+.btn-publish {
+    float: right;
+    margin-bottom: 20px;
+}
+
+.media-object {
+    width: 40px;
+    height: 40px;
+}
+
+.desc-text {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.profile .section {
+    margin-top: 15px;
+}
