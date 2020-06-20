@@ -4,14 +4,14 @@
     <title>Lion 社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 <!--<p th:text="'Hello, '+ ${id} + ${name} + '!'" />-->
@@ -22,6 +22,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"> 发起问题</span></h2>
             <hr>
             <form action="/publish" method="post" autocomplete="off">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题:</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="发布问题的标题.." th:value="${title}">
