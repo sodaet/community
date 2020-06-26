@@ -2,18 +2,22 @@ package cn.soda.community.service;
 
 import cn.soda.community.dto.PaginationDTO;
 import cn.soda.community.dto.QuestionDTO;
+import cn.soda.community.mapper.QuestionExtMapper;
 import cn.soda.community.mapper.QuestionMapper;
 import cn.soda.community.mapper.UserMapper;
 import cn.soda.community.model.Question;
 import cn.soda.community.model.QuestionExample;
 import cn.soda.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -23,6 +27,9 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -42,7 +49,10 @@ public class QuestionService {
         //size*(page-1)
         Integer offset = size * (page - 1);
         if (offset < 0) offset = 0;
-        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -56,7 +66,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
 
         QuestionExample questionExample = new QuestionExample();
@@ -108,6 +118,9 @@ public class QuestionService {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setCommentCount(0);
+            question.setLikeCount(0);
             questionMapper.insert(question);
         } else {
             // 更新
@@ -120,5 +133,39 @@ public class QuestionService {
             questionExample.createCriteria().andIdEqualTo(question.getId());
             questionMapper.updateByExampleSelective(updateQuestion, questionExample);
         }
+    }
+
+    public void incView(long id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        Question updateQuestion = new Question();
+        updateQuestion.setViewCount(question.getViewCount() + 1);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andIdEqualTo(id);
+        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())) {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO
+                .getTag(), ",");
+        String regexpTag = Arrays
+                .stream(tags)
+                .filter(StringUtils::isNotBlank)
+                .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

@@ -17,6 +17,10 @@ body {
     height: 40px;
 }
 
+.media-name {
+    padding-top: 10px;
+}
+
 .desc-text {
     font-size: 12px;
     font-weight: normal;
@@ -30,4 +34,77 @@ body {
 .community-menu {
     color: #999;
     font-size: 13px;
+}
+
+.community-tag:hover {
+    background-color: #339dff;
+    color: #fff !important;
+    text-decoration-line: none;
+}
+
+.community-tag {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+    margin: 4px;
+}
+
+.comment-com {
+    margin: 10px 0;
+}
+
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.sub-comments {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn {
+    margin: 10px 0;
+}
+
+.menu {
+    margin-top: 5px;
+    color: #999;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .active {
+    color: #499ef3;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
+}
+
+.question-tag {
+    margin-right: 5px;
+}
+
+.question-related {
+    line-height: 20px;
+    font-size: 20px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
 }

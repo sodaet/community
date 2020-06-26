@@ -46,8 +46,8 @@ public class OAuthController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
-        String accesstoken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubUser = githubProvider.getUser(accesstoken);
+        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
@@ -56,7 +56,9 @@ public class OAuthController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatar_url());
             userService.createOrUpdate(user);
-            response.addCookie(new Cookie("token", token));
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+            response.addCookie(cookie);
         } else {
             //fail
         }

@@ -6,3 +6,6 @@ git，idea。。。
 
 ## 资料
 spring，。。
+
+## 命令
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
