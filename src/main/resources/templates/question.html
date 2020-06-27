@@ -14,8 +14,16 @@
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/moment.js"></script>
     <script src="/js/community.js" type="application/javascript"></script>
-
     <link rel="stylesheet" href="/css/community.css">
+
+    <!--markdown插件-->
+    <link rel="stylesheet" href="/markdown/css/editormd.css" />
+    <link rel="stylesheet" href="/markdown/css/editormd.preview.css">
+    <script src="/markdown/editormd.min.js"></script>
+    <script src="/markdown/editormd.js"></script>
+    <script src="/markdown/lib/marked.min.js"></script>
+    <script src="/markdown/lib/prettify.min.js"></script>
+
 </head>
 <body>
 <!--<p th:text="'Hello, '+ ${id} + ${name} + '!'" />-->
@@ -33,8 +41,16 @@
                     阅读数: <span th:text="${question.viewCount}"></span>
                 </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!--问题描述-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                    <textarea style="display:none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("question-view", {});
+                    });
+                </script>
 
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 <!--标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -108,7 +124,7 @@
                 </div>
                 <input type="hidden" th:value="${question.id}" id="question_id">
                 <textarea class="form-control comment-com" rows="5" id="comment_content"></textarea>
-                <button type="button" class="btn btn-success btn-publish" onclick="post()">回复</button>
+                <button type="button" class="btn btn-success btn-publish" th:data-user="${session.user}" onclick="post(this)">回复</button>
             </div>
         </div>
 

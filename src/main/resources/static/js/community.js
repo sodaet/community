@@ -1,10 +1,11 @@
 /**
  * 提交回复
  */
-function post() {
+function post(e) {
     // debugger;
     const questionId = $("#question_id").val();
     const content = $("#comment_content").val();
+    if (!isLog(e)) return;
     comment2target(questionId, 1, content);
 }
 
@@ -122,4 +123,17 @@ function selectTag(e) {
             $("#tag").val(value);
         }
     }
+}
+
+function isLog(e) {
+    var user = e.getAttribute("data-user");
+    if (user == null) {
+        alert("请登录后再和TA交流吧！")
+        return false;
+    }
+    else return true;
+}
+
+function alertMeg() {
+    alert('作者还没有做出这个功能，去他的GitHub催他吧。');
 }

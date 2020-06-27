@@ -31,7 +31,7 @@ public class PaginationDTO {
             }
         }
 
-        if (page == 1) { //是否展示上一页
+        if (page == 1 || page == 0) { //是否展示上一页
             showPrevious = false;
         } else {
             showPrevious = true;
@@ -43,7 +43,7 @@ public class PaginationDTO {
             showNext = true;
         }
 
-        if (pages.contains(1)) { //是否展示第一页
+        if (pages.contains(1) || pages.contains(0)) { //是否展示第一页
             showFirstPage = false;
         } else {
             showFirstPage = true;
