@@ -77,4 +77,13 @@ public class CommentService {
 
         return commentDTOS;
     }
+
+    public void redCommentCount(Long id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        Question updateQuestion = new Question();
+        updateQuestion.setCommentCount(question.getCommentCount() - 1);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andIdEqualTo(id);
+        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+    }
 }

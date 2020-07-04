@@ -21,8 +21,9 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="session.user != null">
-                        <a href="/publish">发布</a>
+                        <a href="/publish">提问</a>
                     </li>
+                    <li><a href="/profile/replies">回复 <span class="badge">11</span></a></li>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false"><span th:text="${session.user.getName()}"></span><span class="caret"></span></a>

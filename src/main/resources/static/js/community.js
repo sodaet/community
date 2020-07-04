@@ -125,6 +125,36 @@ function selectTag(e) {
     }
 }
 
+function deleteComment(e) {
+    var isDelete = confirm("确定要删除这个评论吗？");
+    console.log(isDelete);
+    var targetId = e.getAttribute("data-id");
+    var parentId = e.getAttribute("data-parentId");
+    if (isDelete) {
+        $.ajax({
+            type: "POST",
+            url: "/delete",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "id": targetId,
+                "parentId": parentId
+            }),
+            success: function (response) {
+                if (response.code === 200) {
+                    window.location.reload();
+                } else {
+                    alert("删除失败，请联系作者解决吧！")
+                }
+            },
+            dataType: "json"
+        });
+    }
+}
+
+function deleteQuestion() {
+    alert("删除问题帖子功能还没有实现，期待下一个版本吧！")
+}
+
 function isLog(e) {
     var user = e.getAttribute("data-user");
     if (user == null) {
